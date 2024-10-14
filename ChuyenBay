@@ -1,0 +1,92 @@
+package entity;
+
+
+
+public class ChuyenBay {
+    private String maChuyenBay;
+    private int soGhe;
+    private String ngayBay;
+    private String gioBay;
+    private String tgBay;
+    private String diemDen;
+    private String hang;
+
+    public ChuyenBay(String maChuyenBay, int soGhe, String ngayBay, String gioBay, String tgBay, String diemDen, String hang) {
+        this.maChuyenBay = maChuyenBay;
+        this.soGhe = soGhe;
+        this.ngayBay = ngayBay;
+        this.gioBay = gioBay;
+        this.tgBay = tgBay;
+        this.diemDen = diemDen;
+        this.hang = hang;
+    }
+
+    public String getMaChuyenBay() {
+        return maChuyenBay;
+    }
+
+    public void setMaChuyenBay(String maChuyenBay) {
+        this.maChuyenBay = maChuyenBay;
+    }
+
+    public int getSoGhe() {
+        return soGhe;
+    }
+
+    public void setSoGhe(int soGhe) {
+        this.soGhe = soGhe;
+    }
+
+    public String getNgayBay() {
+        return ngayBay;
+    }
+
+    public void setNgayBay(String ngayBay) {
+        this.ngayBay = ngayBay;
+    }
+
+    public String getGioBay() {
+        return gioBay;
+    }
+
+    public void setGioBay(String gioBay) {
+        this.gioBay = gioBay;
+    }
+
+    public String getTgBay() {
+        return tgBay;
+    }
+
+    public void setTgBay(String tgBay) {
+        this.tgBay = tgBay;
+    }
+
+    public String getDiemDen() {
+        return diemDen;
+    }
+
+    public void setDiemDen(String diemDen) {
+        this.diemDen = diemDen;
+    }
+
+    public String getHang() {
+        return hang;
+    }
+
+    public void setHang(String hang) {
+        this.hang = hang;
+    }
+
+
+    public void hienthi(){
+        System.out.println("Mã chuyến bay: " + maChuyenBay +
+                ", Ngày giờ bay: " + ngayBay +
+                ", Giờ bay: " + gioBay +
+                ", Điểm đến: " + diemDen +
+                ", Giờ đi chuyển: " + tgBay +
+                ", Số ghế: " + soGhe +
+                ", Hãng máy bay: " + hang);
+    }
+
+
+}
