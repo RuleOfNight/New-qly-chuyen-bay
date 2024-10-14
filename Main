@@ -1,0 +1,106 @@
+
+import entity.ChuyenBay;
+import service.ChuyenBayManager;
+import java.util.Scanner;
+
+
+public class Main{
+    public static void main(String[] args) {
+        ChuyenBayManager qly = new ChuyenBayManager();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\nChọn chức năng:");
+            System.out.println("1. Thêm chuyến bay");
+            System.out.println("2. Xóa chuyến bay");
+            System.out.println("3. Sửa chuyến bay");
+            System.out.println("4. Hiển thị danh sách chuyến bay");
+            System.out.println("5. Lọc chuyến bay");
+            System.out.println("0. Thoát");
+            System.out.print("Nhập lựa chọn của bạn: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Nhập mã chuyến bay: ");
+                    String maChuyenBay = scanner.nextLine();
+                    System.out.println("Nhập giờ bay");
+                    String gioBay = scanner.nextLine();
+                    System.out.println("Nhập thời gian bay: ");
+                    String tgBay = scanner.nextLine();
+                    System.out.print("Nhập điểm đến: ");
+                    String diemDen = scanner.nextLine();
+                    System.out.print("Nhập ngày bay: ");
+                    String ngayBay = scanner.nextLine();
+
+                    if(!ngayBay.matches("^([0-2][0-9]|3[0-1])/([0][1-9]|1[0-2])/([0-9]{4})$")){
+                        System.out.println("Định dạng không hợp lệ (dd/mm/yyyy).");
+                    } else{
+                        break;
+                    }
+                    System.out.print("Nhập hãng bay: ");
+                    String hang = scanner.nextLine();
+                    System.out.println("Nhập số ghế: ");
+                    int soGhe = scanner.nextInt();
+                    ChuyenBay chuyenBay = new ChuyenBay(maChuyenBay, soGhe, ngayBay, gioBay,  tgBay,diemDen,  hang);
+                    qly.themChuyenBay(chuyenBay);
+                    break;
+
+                case 2:
+                    System.out.print("Nhập mã chuyến bay cần xóa: ");
+                    String maXoa = scanner.nextLine();
+                    qly.xoaChuyenBay(maXoa);
+                    break;
+
+                case 3:
+                    System.out.print("Nhập mã chuyến bay cần sửa: ");
+                    String maSua = scanner.nextLine();
+                    System.out.print("Nhập điểm đi mới: ");
+                    String diemDiMoi = scanner.nextLine();
+                    System.out.print("Nhập điểm đến mới: ");
+                    String diemDenMoi = scanner.nextLine();
+                    System.out.print("Nhập ngày bay mới: ");
+                    String ngayBayMoi = scanner.nextLine();
+                    System.out.print("Nhập hãng bay mới: ");
+                    String hangBayMoi = scanner.nextLine();
+                    qly.suaChuyenBay(maSua, diemDiMoi, diemDenMoi, ngayBayMoi, hangBayMoi);
+                    break;
+
+                case 4:
+                    qly.hienThi();
+                    break;
+
+                case 5:
+                    System.out.println("1. Lọc chuyến bay theo điểm đến");
+                    System.out.println("2. Lọc chuyến bay theo hãng bay");
+                    int a = scanner.nextInt();
+                    if(a==1){
+                        System.out.print("Nhập điểm đến: ");
+                        String diemDiLoc = scanner.nextLine();scanner.nextLine();
+                        qly.locChuyenBayTheoDiemĐen(diemDiLoc);
+                    }else{
+                        System.out.print("Nhập hãng: ");
+                        String hangBayLoc = scanner.nextLine();scanner.nextLine();
+                        qly.locChuyenBayTheoHang(hangBayLoc);
+                    }
+
+                    break;
+
+
+                case 0:
+                    System.out.println("Thoát chương trình.");
+                    return;
+
+                default:
+                    System.out.println("Lựa chọn không hợp lệ. Vui lòng chọn lại.");
+            }
+        }
+    }
+
+    private void themChuyenBay(ChuyenBay chuyenBay) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+
+}
