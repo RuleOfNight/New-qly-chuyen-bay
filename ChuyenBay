@@ -1,7 +1,6 @@
 package entity;
 
 
-
 public class ChuyenBay {
     private String maChuyenBay;
     private int soGhe;
