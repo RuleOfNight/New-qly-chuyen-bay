@@ -1,0 +1,115 @@
+package service;
+
+import entity.PhiCong;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiPredicate;
+
+public class PhiCongManager {
+    private List<PhiCong> danhSachPhiCong;
+    private final String filePath = "phicong.txt";
+
+    public PhiCongManager() {
+        danhSachPhiCong = new ArrayList<>();
+        fromFile();
+    }
+
+    public void themPhiCong(PhiCong phiCong) {
+        danhSachPhiCong.add(phiCong);
+        System.out.println("Đã thêm phi công: " + phiCong.getMaNhanVien());
+        toFile();
+    }
+
+    public void xoaPhiCong(String maNhanVien) {
+        boolean removed = danhSachPhiCong.removeIf(pc -> pc.getMaNhanVien().equals(maNhanVien));
+        if (removed) {
+            System.out.println("Đã xóa phi công có mã: " + maNhanVien);
+            toFile();
+        } else {
+            System.out.println("Không tìm thấy phi công có mã: " + maNhanVien);
+        }
+    }
+
+    public void suaPhiCong(String maNhanVien, String diaChi, String tenPhiCong, String ngaySinh, String loaiNhanVien, int sdt, String email, int soGioBay) {
+        for (PhiCong pc : danhSachPhiCong) {
+            if (pc.getMaNhanVien().equals(maNhanVien)) {
+                pc.setDiaChi(diaChi);
+                pc.setTenNhanVien(tenPhiCong);
+                pc.setNgaySinh(ngaySinh);
+                pc.setLoaiNhanVien(loaiNhanVien);
+                pc.setSdt(sdt);
+                pc.setEmail(email);
+                pc.setSoGioBay(soGioBay);
+                System.out.println("Đã sửa phi công: " + pc);
+                toFile();
+                return;
+            }
+        }
+        System.out.println("Không tìm thấy phi công có mã: " + maNhanVien);
+    }
+
+    public void hienThi() {
+        if (danhSachPhiCong.isEmpty()) {
+            System.out.println("Danh sách phi công trống.");
+        } else {
+            for (PhiCong pc : danhSachPhiCong) {
+                pc.hienThi();
+            }
+        }
+    }
+
+    public void locPhiCongTheoTen(String ten) {
+        System.out.println("Các phi công phù hợp với tên: " + ten);
+        for (PhiCong pc : danhSachPhiCong) {
+            if (pc.getTenNhanVien().equalsIgnoreCase(ten)) {
+                System.out.println(pc);
+            }
+        }
+    }
+
+    public void locPhiCongTheoSoGioBay(int soGioBayMin) {
+        System.out.println("Các phi công có số giờ bay tối thiểu: " + soGioBayMin);
+        for (PhiCong pc : danhSachPhiCong) {
+            if (pc.getSoGioBay() >= soGioBayMin) {
+                pc.hienThi();
+            }
+        }
+    }
+// Lưu thông tin phi công vào file
+    private void toFile() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (PhiCong pc : danhSachPhiCong) {
+                writer.write(pc.toString());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Lỗi khi lưu dữ liệu ra file: " + e.getMessage());
+        }
+    }
+//Đọc thông tin từ file
+    private void fromFile() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length >= 8) {
+                    PhiCong phiCong = new PhiCong(
+                            parts[3], // Dia chi
+                            parts[0], // Ma Nhan Vien
+                            parts[1], // Ten Nhan Vien
+                            parts[2], // Ngay sinh
+                            parts[4], // Loai Nhan Vien
+                            Integer.parseInt(parts[5]), // So Dien Thoai
+                            parts[6], // Email
+                            Integer.parseInt(parts[7]) // So Gio Bay
+                    );
+                    danhSachPhiCong.add(phiCong);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Lỗi khi đọc dữ liệu từ file: " + e.getMessage());
+        }
+    }
+}
