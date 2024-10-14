@@ -24,7 +24,7 @@ public class ChuyenBayManager{
         System.out.println("Đã xóa chuyến bay có mã: " + maChuyenBay);
     }
 
-    public void suaChuyenBay(String maChuyenBay, String diemDi, String diemDen, String ngayBay, String hangBay) {
+    public void suaChuyenBay(String maChuyenBay, String diemDen, String ngayBay, String hangBay) {
         for (ChuyenBay cb : danhSachChuyenBay) {
             if (cb.getMaChuyenBay().equals(maChuyenBay)) {
                 cb.setMaChuyenBay(maChuyenBay);
