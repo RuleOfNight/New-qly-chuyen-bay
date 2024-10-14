@@ -1,0 +1,74 @@
+package service;
+
+import entity.ChuyenBay;
+
+import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.function.BiPredicate;
+
+public class ChuyenBayManager{
+    private List<ChuyenBay> danhSachChuyenBay;
+
+    public ChuyenBayManager() {
+        danhSachChuyenBay = new ArrayList<>();
+    }
+
+    public void themChuyenBay(ChuyenBay chuyenBay) {
+        danhSachChuyenBay.add(chuyenBay);
+        System.out.println("Đã thêm chuyến bay: " + chuyenBay.getMaChuyenBay());
+    }
+
+    public void xoaChuyenBay(String maChuyenBay) {
+        danhSachChuyenBay.removeIf(cb -> cb. getMaChuyenBay().equals(maChuyenBay));
+        System.out.println("Đã xóa chuyến bay có mã: " + maChuyenBay);
+    }
+
+    public void suaChuyenBay(String maChuyenBay, String diemDi, String diemDen, String ngayBay, String hangBay) {
+        for (ChuyenBay cb : danhSachChuyenBay) {
+            if (cb.getMaChuyenBay().equals(maChuyenBay)) {
+                cb.setMaChuyenBay(maChuyenBay);
+                int soGhe = 0;
+                cb.setSoGhe(soGhe);
+                cb.setNgayBay(ngayBay);
+                String tgBay = null;
+                cb.setTgBay(tgBay);
+                cb.setDiemDen(diemDen);
+                cb.setNgayBay(ngayBay);
+                cb.setHang(hangBay);
+                System.out.println("Đã sửa chuyến bay: " + cb);
+                return;
+            }
+        }
+        System.out.println("Không tìm thấy chuyến bay có mã: " + maChuyenBay);
+    }
+
+    public void hienThi() {
+        if (danhSachChuyenBay.isEmpty()) {
+            System.out.println("Danh sách chuyến bay trống.");
+        } else {
+            for (ChuyenBay cb : danhSachChuyenBay) {
+                cb.hienthi();
+            }
+        }
+    }
+
+    public void locChuyenBay(String tieuChi, BiPredicate<ChuyenBay, String> predicate) {
+        System.out.println("Các chuyến bay phù hợp với tiêu chí: " + tieuChi);
+        for (ChuyenBay cb : danhSachChuyenBay) {
+            if (predicate.test(cb, tieuChi)) {
+                System.out.println(cb);
+            }
+        }
+    }
+
+
+    public void locChuyenBayTheoDiemĐen(String diemDen) {
+        locChuyenBay(diemDen, (cb, tieuChi) -> cb.getDiemDen().equalsIgnoreCase(tieuChi));
+    }
+
+
+    public void locChuyenBayTheoHang(String hang) {
+        locChuyenBay(hang, (cb, tieuChi) -> cb.getHang().equalsIgnoreCase(tieuChi));
+    }
+}
