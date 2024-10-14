@@ -1,92 +1,218 @@
-
 import entity.ChuyenBay;
+import entity.PhiCong;
 import service.ChuyenBayManager;
+import service.PhiCongManager;
+
 import java.util.Scanner;
 
-
-public class Main{
+public class Main {
     public static void main(String[] args) {
-        ChuyenBayManager qly = new ChuyenBayManager();
-        Scanner scanner = new Scanner(System.in);
+        ChuyenBayManager qlyChuyenBay = new ChuyenBayManager();
+        PhiCongManager qlyPhiCong = new PhiCongManager();
+        Scanner sc = new Scanner(System.in);
 
         while (true) {
             System.out.println("\nChọn chức năng:");
-            System.out.println("1. Thêm chuyến bay");
-            System.out.println("2. Xóa chuyến bay");
-            System.out.println("3. Sửa chuyến bay");
-            System.out.println("4. Hiển thị danh sách chuyến bay");
-            System.out.println("5. Lọc chuyến bay");
+            System.out.println("1. Quản lý chuyến bay");
+            System.out.println("2. Quản lý phi công");
             System.out.println("0. Thoát");
             System.out.print("Nhập lựa chọn của bạn: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            int choice = sc.nextInt();
+            sc.nextLine();
 
             switch (choice) {
                 case 1:
-                    System.out.print("Nhập mã chuyến bay: ");
-                    String maChuyenBay = scanner.nextLine();
-                    System.out.println("Nhập giờ bay");
-                    String gioBay = scanner.nextLine();
-                    System.out.println("Nhập thời gian bay: ");
-                    String tgBay = scanner.nextLine();
-                    System.out.print("Nhập điểm đến: ");
-                    String diemDen = scanner.nextLine();
-                    System.out.print("Nhập ngày bay: ");
-                    String ngayBay = scanner.nextLine();
+                    // Menu quản lý chuyến bay
+                    while (true) {
+                        System.out.println("\n--- Quản lý chuyến bay ---");
+                        System.out.println("1. Thêm chuyến bay");
+                        System.out.println("2. Xóa chuyến bay");
+                        System.out.println("3. Sửa chuyến bay");
+                        System.out.println("4. Hiển thị danh sách chuyến bay");
+                        System.out.println("5. Lọc chuyến bay");
+                        System.out.println("6. Quay lại menu chính");
+                        System.out.print("Nhập lựa chọn của bạn: ");
+                        int flightChoice = sc.nextInt();
+                        sc.nextLine();
 
-                    if(!ngayBay.matches("^([0-2][0-9]|3[0-1])/([0][1-9]|1[0-2])/([0-9]{4})$")){
-                        System.out.println("Định dạng không hợp lệ (dd/mm/yyyy).");
-                    } else{
-                        break;
+                        switch (flightChoice) {
+                            case 1:
+                                System.out.print("Nhập mã chuyến bay: ");
+                                String maChuyenBay = sc.nextLine();
+                                System.out.print("Nhập giờ bay: ");
+                                String gioBay = sc.nextLine();
+                                System.out.print("Nhập thời gian bay: ");
+                                String tgBay = sc.nextLine();
+                                System.out.print("Nhập điểm đến: ");
+                                String diemDen = sc.nextLine();
+                                System.out.print("Nhập ngày bay (dd/mm/yyyy): ");
+                                String ngayBay = sc.nextLine();
+
+                                if (!ngayBay.matches("^([0-2][0-9]|3[0-1])/([0][1-9]|1[0-2])/([0-9]{4})$")) {
+                                    System.out.println("Định dạng không hợp lệ (dd/mm/yyyy).");
+                                    break;
+                                }
+                                System.out.print("Nhập hãng bay: ");
+                                String hang = sc.nextLine();
+                                System.out.print("Nhập số ghế: ");
+                                int soGhe = sc.nextInt();
+                                ChuyenBay chuyenBay = new ChuyenBay(maChuyenBay, soGhe, ngayBay, gioBay, tgBay, diemDen, hang);
+                                qlyChuyenBay.themChuyenBay(chuyenBay);
+                                break;
+
+                            case 2:
+                                System.out.print("Nhập mã chuyến bay cần xóa: ");
+                                String maXoa = sc.nextLine();
+                                qlyChuyenBay.xoaChuyenBay(maXoa);
+                                break;
+
+                            case 3:
+                                System.out.print("Nhập mã chuyến bay cần sửa: ");
+                                String maSua = sc.nextLine();
+                                System.out.print("Nhập điểm đến mới: ");
+                                String diemDenMoi = sc.nextLine();
+                                System.out.print("Nhập ngày bay mới: ");
+                                String ngayBayMoi = sc.nextLine();
+                                System.out.print("Nhập hãng bay mới: ");
+                                String hangBayMoi = sc.nextLine();
+                                qlyChuyenBay.suaChuyenBay(maSua, diemDenMoi, ngayBayMoi, hangBayMoi);
+                                break;
+
+                            case 4:
+                                qlyChuyenBay.hienThi();
+                                break;
+
+                            case 5:
+                                System.out.println("1. Lọc chuyến bay theo điểm đến");
+                                System.out.println("2. Lọc chuyến bay theo hãng bay");
+                                int locChoice = sc.nextInt();
+                                sc.nextLine();
+                                if (locChoice == 1) {
+                                    System.out.print("Nhập điểm đến: ");
+                                    String diemDiLoc = sc.nextLine();
+                                    qlyChuyenBay.locChuyenBayTheoDiemĐen(diemDiLoc);
+                                } else if (locChoice == 2) {
+                                    System.out.print("Nhập hãng: ");
+                                    String hangBayLoc = sc.nextLine();
+                                    qlyChuyenBay.locChuyenBayTheoHang(hangBayLoc);
+                                } else {
+                                    System.out.println("Lựa chọn không hợp lệ.");
+                                }
+                                break;
+
+                            case 6:
+                                break;
+
+                            default:
+                                System.out.println("Lựa chọn không hợp lệ. Vui lòng chọn lại.");
+                        }
+
+                        if (flightChoice == 6) {
+                            break; // Quay lại menu chính
+                        }
                     }
-                    System.out.print("Nhập hãng bay: ");
-                    String hang = scanner.nextLine();
-                    System.out.println("Nhập số ghế: ");
-                    int soGhe = scanner.nextInt();
-                    ChuyenBay chuyenBay = new ChuyenBay(maChuyenBay, soGhe, ngayBay, gioBay,  tgBay,diemDen,  hang);
-                    qly.themChuyenBay(chuyenBay);
                     break;
 
                 case 2:
-                    System.out.print("Nhập mã chuyến bay cần xóa: ");
-                    String maXoa = scanner.nextLine();
-                    qly.xoaChuyenBay(maXoa);
-                    break;
+                    // Menu quản lý phi công
+                    while (true) {
+                        System.out.println("\n--- Quản lý phi công ---");
+                        System.out.println("1. Thêm phi công");
+                        System.out.println("2. Xóa phi công");
+                        System.out.println("3. Sửa phi công");
+                        System.out.println("4. Hiển thị danh sách phi công");
+                        System.out.println("5. Lọc phi công");
+                        System.out.println("6. Quay lại menu chính");
+                        System.out.print("Nhập lựa chọn của bạn: ");
+                        int pilotChoice = sc.nextInt();
+                        sc.nextLine();
 
-                case 3:
-                    System.out.print("Nhập mã chuyến bay cần sửa: ");
-                    String maSua = scanner.nextLine();
-                    System.out.print("Nhập điểm đi mới: ");
-                    String diemDiMoi = scanner.nextLine();
-                    System.out.print("Nhập điểm đến mới: ");
-                    String diemDenMoi = scanner.nextLine();
-                    System.out.print("Nhập ngày bay mới: ");
-                    String ngayBayMoi = scanner.nextLine();
-                    System.out.print("Nhập hãng bay mới: ");
-                    String hangBayMoi = scanner.nextLine();
-                    qly.suaChuyenBay(maSua, diemDiMoi, diemDenMoi, ngayBayMoi, hangBayMoi);
-                    break;
+                        switch (pilotChoice) {
+                            case 1:
+                                System.out.print("Nhập mã nhân viên: ");
+                                String maNhanVien = sc.nextLine();
+                                System.out.print("Nhập tên phi công: ");
+                                String tenPhiCong = sc.nextLine();
+                                System.out.print("Nhập ngày sinh (dd/mm/yyyy): ");
+                                String ngaySinh = sc.nextLine();
+                                System.out.print("Nhập địa chỉ: ");
+                                String diaChi = sc.nextLine();
+                                System.out.print("Nhập loại nhân viên: ");
+                                String loaiNhanVien = sc.nextLine();
+                                System.out.print("Nhập số điện thoại: ");
+                                int sdt = sc.nextInt();
+                                sc.nextLine(); // Consume newline
+                                System.out.print("Nhập email: ");
+                                String email = sc.nextLine();
+                                System.out.print("Nhập số giờ bay: ");
+                                int soGioBay = sc.nextInt();
 
-                case 4:
-                    qly.hienThi();
-                    break;
+                                PhiCong phiCong = new PhiCong(diaChi, maNhanVien, tenPhiCong, ngaySinh, loaiNhanVien, sdt, email, soGioBay);
+                                qlyPhiCong.themPhiCong(phiCong);
+                                break;
 
-                case 5:
-                    System.out.println("1. Lọc chuyến bay theo điểm đến");
-                    System.out.println("2. Lọc chuyến bay theo hãng bay");
-                    int a = scanner.nextInt();
-                    if(a==1){
-                        System.out.print("Nhập điểm đến: ");
-                        String diemDiLoc = scanner.nextLine();scanner.nextLine();
-                        qly.locChuyenBayTheoDiemĐen(diemDiLoc);
-                    }else{
-                        System.out.print("Nhập hãng: ");
-                        String hangBayLoc = scanner.nextLine();scanner.nextLine();
-                        qly.locChuyenBayTheoHang(hangBayLoc);
+                            case 2:
+                                System.out.print("Nhập mã nhân viên cần xóa: ");
+                                String maXoaPhiCong = sc.nextLine();
+                                qlyPhiCong.xoaPhiCong(maXoaPhiCong);
+                                break;
+
+                            case 3:
+                                System.out.print("Nhập mã nhân viên cần sửa: ");
+                                String maSuaPhiCong = sc.nextLine();
+                                System.out.print("Nhập địa chỉ mới: ");
+                                String diaChiMoi = sc.nextLine();
+                                System.out.print("Nhập tên phi công mới: ");
+                                String tenPhiCongMoi = sc.nextLine();
+                                System.out.print("Nhập ngày sinh mới (dd/mm/yyyy): ");
+                                String ngaySinhMoi = sc.nextLine();
+                                System.out.print("Nhập loại nhân viên mới: ");
+                                String loaiNhanVienMoi = sc.nextLine();
+                                System.out.print("Nhập số điện thoại mới: ");
+                                int sdtMoi = sc.nextInt();
+                                sc.nextLine(); // Consume newline
+                                System.out.print("Nhập email mới: ");
+                                String emailMoi = sc.nextLine();
+                                System.out.print("Nhập số giờ bay mới: ");
+                                int soGioBayMoi = sc.nextInt();
+
+                                qlyPhiCong.suaPhiCong(maSuaPhiCong, diaChiMoi, tenPhiCongMoi, ngaySinhMoi, loaiNhanVienMoi, sdtMoi, emailMoi, soGioBayMoi);
+                                break;
+
+                            case 4:
+                                qlyPhiCong.hienThi();
+                                break;
+
+                            case 5:
+                                System.out.println("1. Lọc phi công theo tên");
+                                System.out.println("2. Lọc phi công theo số giờ bay");
+                                int locChoicePhiCong = sc.nextInt();
+                                sc.nextLine(); // Consume newline
+                                if (locChoicePhiCong == 1) {
+                                    System.out.print("Nhập tên phi công: ");
+                                    String tenLoc = sc.nextLine();
+                                    qlyPhiCong.locPhiCongTheoTen(tenLoc);
+                                } else if (locChoicePhiCong == 2) {
+                                    System.out.print("Nhập số giờ bay tối thiểu: ");
+                                    int soGioBayMin = sc.nextInt();
+                                    qlyPhiCong.locPhiCongTheoSoGioBay(soGioBayMin);
+                                } else {
+                                    System.out.println("Lựa chọn không hợp lệ.");
+                                }
+                                break;
+
+                            case 6:
+                                break;
+
+                            default:
+                                System.out.println("Lựa chọn không hợp lệ. Vui lòng chọn lại.");
+                        }
+
+                        if (pilotChoice == 6) {
+                            break; // Quay lại menu chính
+                        }
                     }
-
                     break;
-
 
                 case 0:
                     System.out.println("Thoát chương trình.");
@@ -97,10 +223,4 @@ public class Main{
             }
         }
     }
-
-    private void themChuyenBay(ChuyenBay chuyenBay) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-
 }
