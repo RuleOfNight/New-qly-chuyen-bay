@@ -1,0 +1,43 @@
+drop database if exists khanh;
+CREATE DATABASE khanh;
+USE khanh;
+
+
+CREATE TABLE nhanvien (
+    nhanvien_id INT AUTO_INCREMENT PRIMARY KEY,
+    ho_ten VARCHAR(50) NOT NULL,
+    ngay_sinh DATE,
+    loai_nhan_vien ENUM('PhiCong', 'TiepVien') NOT NULL,
+    so_dien_thoai VARCHAR(15),
+    dia_chi VARCHAR(100),
+    email VARCHAR(50)
+);
+
+
+CREATE TABLE phicong (
+    nhanvien_id INT PRIMARY KEY,
+    so_gio_bay INT DEFAULT 0,
+    FOREIGN KEY (nhanvien_id) REFERENCES nhanvien(nhanvien_id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE tiepvien (
+    nhanvien_id INT PRIMARY KEY,
+    diem_toeic INT,
+    FOREIGN KEY (nhanvien_id) REFERENCES nhanvien(nhanvien_id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE chuyenbay (
+    chuyenbay_id INT AUTO_INCREMENT PRIMARY KEY,
+    ma_chuyen_bay VARCHAR(10) NOT NULL,
+    san_bay_di VARCHAR(50) NOT NULL,
+    san_bay_den VARCHAR(50) NOT NULL,
+    diem_den VARCHAR(50) NOT NULL,
+    ngay_gio_di TIMESTAMP,
+    ngay_gio_den TIMESTAMP,
+    phi_cong_id INT,
+    tiep_vien_id INT,
+    FOREIGN KEY (phi_cong_id) REFERENCES phicong(nhanvien_id),
+    FOREIGN KEY (tiep_vien_id) REFERENCES tiepvien(nhanvien_id)
+);
